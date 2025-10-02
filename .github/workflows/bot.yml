@@ -8,14 +8,6 @@ on:
 jobs:
   run-bot:
     runs-on: ubuntu-latest
-    concurrency:
-      group: bot-run
-      cancel-in-progress: true
-
-    env:
-      SERVER_HOST: ${{ secrets.SERVER_HOST }}
-      SERVER_PORT: ${{ secrets.SERVER_PORT }}
-      BOT_USERNAME: ${{ secrets.BOT_USERNAME }}
 
     steps:
       - uses: actions/checkout@v3
@@ -28,5 +20,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run bot script
-         run: npx ts-node --esm bot.ts
+      - name: Compile TypeScript
+        run: npx tsc
+
+      - name: Run bot
+        run: node dist/bot.js
