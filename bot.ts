@@ -24,11 +24,16 @@ function isServerEmpty(callback: (empty: boolean) => void) {
       console.log(`[${new Date().toISOString()}] Server is unreachable.`);
       callback(false);
     } else {
-      const onlinePlayers = result.players.online;
-      console.log(
-        `[${new Date().toISOString()}] Server has ${onlinePlayers} player(s) online`
-      );
-      callback(onlinePlayers === 0);
+        if ('players' in result) {
+            const onlinePlayers = result.players.online;
+            console.log(
+              `[${new Date().toISOString()}] Server has ${onlinePlayers} player(s) online`
+            );
+            callback(onlinePlayers === 0);
+          } else {
+            console.log(`[${new Date().toISOString()}] Unexpected ping result format.`);
+            callback(false);
+          }
     }
   });
 }
@@ -53,10 +58,10 @@ function spawnBot() {
     console.log(`[${new Date().toISOString()}] Bot joined the server!`);
 
     // Optional: Make the bot invisible, frozen, and invincible
-    bot.chat("/effect give @s minecraft:invisibility 999999 1 true");
-    bot.chat("/effect give @s minecraft:resistance 999999 255 true");
-    bot.chat("/effect give @s minecraft:slowness 999999 255 true");
-    bot.chat("/effect give @s minecraft:mining_fatigue 999999 255 true");
+    bot?.chat("/effect give @s minecraft:invisibility 999999 1 true");
+bot?.chat("/effect give @s minecraft:resistance 999999 255 true");
+bot?.chat("/effect give @s minecraft:slowness 999999 255 true");
+bot?.chat("/effect give @s minecraft:mining_fatigue 999999 255 true");
 
     // Disconnect after BOT_LIFETIME
     setTimeout(() => {
