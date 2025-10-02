@@ -1,0 +1,24 @@
+name: Run Minecraft Bot every 25 mins
+
+on:
+  schedule:
+    - cron: "*/25 * * * *"
+  workflow_dispatch: # allows manual run too
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run bot script
+        run: npx ts-node bot.ts
