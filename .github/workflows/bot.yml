@@ -3,11 +3,19 @@ name: Run Minecraft Bot every 25 mins
 on:
   schedule:
     - cron: "*/25 * * * *"
-  workflow_dispatch: # allows manual run too
+  workflow_dispatch:
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
+    concurrency:
+      group: bot-run
+      cancel-in-progress: true
+
+    env:
+      SERVER_HOST: ${{ secrets.SERVER_HOST }}
+      SERVER_PORT: ${{ secrets.SERVER_PORT }}
+      BOT_USERNAME: ${{ secrets.BOT_USERNAME }}
 
     steps:
       - uses: actions/checkout@v3
