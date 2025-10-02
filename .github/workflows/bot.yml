@@ -1,4 +1,4 @@
-name: Run Minecraft Bot every 25 mins
+name: Run Bot
 
 on:
   schedule:
