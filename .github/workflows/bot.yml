@@ -1,4 +1,4 @@
-name: Run Bot
+name: Run Minecraft Bot every 25 minutes
 
 on:
   schedule:
@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -20,8 +21,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Compile TypeScript
-        run: npx tsc
+      - name: Build TypeScript
+        run: npm run build
 
-      - name: Run bot
-        run: node dist/bot.js
+      - name: Set environment variables from GitHub secrets
+        run: |
+          echo "SERVER_HOST=${{ secrets.SERVER_HOST }}" >> $GITHUB_ENV
+          echo "SERVER_PORT=${{ secrets.SERVER_PORT }}" >> $GITHUB_ENV
+          echo "BOT_USERNAME=${{ secrets.BOT_USERNAME }}" >> $GITHUB_ENV
+
+      - name: Run Minecraft bot
+        run: npm run start
