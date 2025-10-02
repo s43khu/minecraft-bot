@@ -1,7 +1,6 @@
 {
     "name": "minecraft-bot",
     "version": "1.0.0",
-    "type": "module",
     "main": "bot.ts",
     "scripts": {
         "start": "ts-node bot.ts"
